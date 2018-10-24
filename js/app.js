@@ -5,7 +5,7 @@ var productImage = function(name, filename){
     this.shown = 0;
     this.clicks = 0;
     this.id = name;
-    this.path = '../img/' + filename;
+    this.path = 'img/' + filename;
     imgList.push(this);
 }
 
@@ -30,3 +30,27 @@ new productImage('unicorn', 'unicorn.jpg');
 new productImage('usb', 'usb.gif');
 new productImage('water-can', 'water-can.jpg');
 new productImage('wine-glass', 'wine-glass.jpg');
+
+
+//render images in the image section
+var renderImages = function(){
+    var imageContainer = document.getElementById('images');
+    var images = chooseImages(3);
+    for(var i = 0; i < images.length; i++){
+        var imgEl = document.createElement('img');
+        imgEl.src = images[i].path;
+        imageContainer.appendChild(imgEl);
+    }
+
+}
+
+//chose and return the indexes of a number of images in the images array
+var chooseImages = function(num){
+    var images = [];
+    for(var i = 0; i < num; i++){
+        images.push(imgList[i]);
+    }
+    return images;
+}
+
+renderImages();
