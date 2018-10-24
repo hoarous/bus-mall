@@ -1,6 +1,8 @@
 //holder for images
 var imgList = [];
+var visualBuffer = [];
 
+//constructor
 var productImage = function(name, filename){
     this.shown = 0;
     this.clicks = 0;
@@ -9,7 +11,7 @@ var productImage = function(name, filename){
     imgList.push(this);
 }
 
-
+//initialize images
 new productImage('bag', 'bag.jpg');
 new productImage('banana', 'banana.jpg');
 new productImage('bathroom', 'bathroom.jpg');
@@ -44,13 +46,36 @@ var renderImages = function(){
 
 }
 
-//chose and return the indexes of a number of images in the images array
+//chose and return the indices of a number of images in the images array
 var chooseImages = function(num){
     var images = [];
     for(var i = 0; i < num; i++){
-        images.push(imgList[i]);
+        var randomNum;
+        do{
+            randomNum = Math.floor(Math.random() * imgList.length);
+        } while (visualBuffer.includes(randomNum));
+        console.log(randomNum);
+
+        visualBuffer.shift(randomNum);
+        //images.push(imgList[i]);
+        images.push(imgList[randomNum]);
     }
+    if(visualBuffer.length > 2 * num){
+        for(var i = 0; i< num; i++){
+            visualBuffer.pop();
+        }
+    }
+
+    console.log(visualBuffer);
     return images;
+}
+
+//clear all images
+var clearImages = function(){
+    var imageContainer = document.getElementById('images');
+    while(imageContainer.firstChild){
+        imageContainer.removeChild(imageContainer.firstChild);
+    }
 }
 
 renderImages();
