@@ -5,6 +5,7 @@
 * As the client, I want the webpage to display my products in an appealing and user-friendly way.
 * As the client, I want the testing environment to be ecologically valid and appear as close to the presentation of an actual shopping app as we can get, so that the focus group results reflect the likelihood of purchase as much as possible.
 * As the client, I want to be able to view the total number of times each image was clicked by users, and to see the hit rate of each item as well: that is to say, how often a user clicks an item in comparison to how often the user is presented with it.
+* As the client, I want the order of presentation to be randomized for experimental validity.
 * As the client, I want each participant to be presented with exactly twenty-five choices for data collection.
 
 **Developer User Stories**
