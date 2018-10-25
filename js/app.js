@@ -1,6 +1,7 @@
 //holder for images
 var imgList = [];
 var visualBuffer = [];
+var totalClicks = 0;
 
 //constructor
 var productImage = function(name, filename){
@@ -40,7 +41,9 @@ var renderImages = function(){
     var images = chooseImages(3);
     for(var i = 0; i < images.length; i++){
         var imgEl = document.createElement('img');
-        imgEl.src = images[i].path;
+        imgEl.src = imgList[images[i]].path;
+        imgEl.id = images[i];
+        imgEl.addEventListener('click', picClickHandler);
         imageContainer.appendChild(imgEl);
     }
 
@@ -56,14 +59,13 @@ var chooseImages = function(num){
         } while (visualBuffer.includes(randomNum));
         console.log(randomNum);
 
-        visualBuffer.shift(randomNum);
+        imgList[randomNum].shown++;
+        visualBuffer.push(randomNum);
         //images.push(imgList[i]);
-        images.push(imgList[randomNum]);
+        images.push(randomNum);
     }
-    if(visualBuffer.length > 2 * num){
-        for(var i = 0; i< num; i++){
-            visualBuffer.pop();
-        }
+    while(visualBuffer.length > num){
+        visualBuffer.shift();
     }
 
     console.log(visualBuffer);
@@ -76,6 +78,18 @@ var clearImages = function(){
     while(imageContainer.firstChild){
         imageContainer.removeChild(imageContainer.firstChild);
     }
+}
+
+var picClickHandler = function(eventObject){
+    clearImages();
+    if(totalClicks < 25){
+        var imgIndex = parseInt(eventObject.target.id);
+        console.log(imgIndex);
+        imgList[imgIndex].clicks++;
+    }
+    totalClicks++;
+    renderImages();
+    console.log(imgList[parseInt(eventObject.target.id)]);
 }
 
 renderImages();
