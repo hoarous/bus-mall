@@ -86,10 +86,23 @@ var picClickHandler = function(eventObject){
         var imgIndex = parseInt(eventObject.target.id);
         console.log(imgIndex);
         imgList[imgIndex].clicks++;
+    } else{
+        renderTotals();
     }
     totalClicks++;
     renderImages();
     console.log(imgList[parseInt(eventObject.target.id)]);
+}
+
+var renderTotals = function(){
+    var listContainer = document.getElementById('totals');
+    if(!listContainer.firstChild){
+        for(var i = 0; i < imgList.length; i++){
+            var liEl = document.createElement('li');
+            liEl.textContent = imgList[i].id + ' was shown ' +imgList[i].shown + ' times and was clicked ' + imgList[i].clicks + ' times.'
+            listContainer.appendChild(liEl);
+        }
+    }
 }
 
 renderImages();
