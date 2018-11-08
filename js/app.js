@@ -1,7 +1,7 @@
 //holder for images
-var imgList = [];
-var visualBuffer = [];
-var totalClicks = 0;
+var imgList;
+var visualBuffer;
+var totalClicks;
 
 //constructor
 var productImage = function(name, filename){
@@ -12,33 +12,9 @@ var productImage = function(name, filename){
     imgList.push(this);
 }
 
-//initialize images
-new productImage('bag', 'bag.jpg');
-new productImage('banana', 'banana.jpg');
-new productImage('bathroom', 'bathroom.jpg');
-new productImage('boots', 'boots.jpg');
-new productImage('breakfast', 'breakfast.jpg');
-new productImage('bubblegum', 'bubblegum.jpg');
-new productImage('chair', 'chair.jpg');
-new productImage('cthulhu', 'cthulhu.jpg');
-new productImage('dog-duck', 'dog-duck.jpg');
-new productImage('dragon', 'dragon.jpg');
-new productImage('pen', 'pen.jpg');
-new productImage('pet-sweep', 'pet-sweep.jpg');
-new productImage('scissors', 'scissors.jpg');
-new productImage('shark', 'shark.jpg');
-new productImage('sweep', 'sweep.png');
-new productImage('tauntaun', 'tauntaun.jpg');
-new productImage('unicorn', 'unicorn.jpg');
-new productImage('usb', 'usb.gif');
-new productImage('water-can', 'water-can.jpg');
-new productImage('wine-glass', 'wine-glass.jpg');
-
-
 //render images in the image section
-var renderImages = function(){
+var renderImages = function(images){
     var imageContainer = document.getElementById('images');
-    var images = chooseImages(3);
     for(var i = 0; i < images.length; i++){
         var imgEl = document.createElement('img');
         imgEl.src = imgList[images[i]].path;
@@ -68,7 +44,8 @@ var chooseImages = function(num){
         visualBuffer.shift();
     }
 
-    console.log(visualBuffer);
+    localStorage.setItem('visualBuffer', JSON.stringify(visualBuffer));
+    // console.log(visualBuffer);
     return images;
 }
 
@@ -87,11 +64,13 @@ var picClickHandler = function(eventObject){
         console.log(imgIndex);
         imgList[imgIndex].clicks++;
         totalClicks++;
-        renderImages();
+        localStorage.setItem('totalClicks', totalClicks);
+        localStorage.setItem('imgList', JSON.stringify(imgList));
+        renderImages(chooseImages(3));
     } else{
         renderTotals();
     }
-    console.log(imgList[parseInt(eventObject.target.id)]);
+    // console.log(imgList[parseInt(eventObject.target.id)]);
 }
 
 var renderTotals = function(){
@@ -152,4 +131,37 @@ var renderTotals = function(){
     }
 }
 
-renderImages();
+visualBuffer = JSON.parse(localStorage.getItem('visualBuffer'));
+if(visualBuffer){
+    totalClicks = parseInt(localStorage.getItem('totalClicks'));
+    imgList = JSON.parse(localStorage.getItem('imgList'));
+    renderImages(visualBuffer);
+} else{
+    visualBuffer = [];
+    totalClicks = 0;
+    imgList = [];
+    //initialize images
+    new productImage('bag', 'bag.jpg');
+    new productImage('banana', 'banana.jpg');
+    new productImage('bathroom', 'bathroom.jpg');
+    new productImage('boots', 'boots.jpg');
+    new productImage('breakfast', 'breakfast.jpg');
+    new productImage('bubblegum', 'bubblegum.jpg');
+    new productImage('chair', 'chair.jpg');
+    new productImage('cthulhu', 'cthulhu.jpg');
+    new productImage('dog-duck', 'dog-duck.jpg');
+    new productImage('dragon', 'dragon.jpg');
+    new productImage('pen', 'pen.jpg');
+    new productImage('pet-sweep', 'pet-sweep.jpg');
+    new productImage('scissors', 'scissors.jpg');
+    new productImage('shark', 'shark.jpg');
+    new productImage('sweep', 'sweep.png');
+    new productImage('tauntaun', 'tauntaun.jpg');
+    new productImage('unicorn', 'unicorn.jpg');
+    new productImage('usb', 'usb.gif');
+    new productImage('water-can', 'water-can.jpg');
+    new productImage('wine-glass', 'wine-glass.jpg');
+    localStorage.setItem('imgList', JSON.stringify(imgList));
+    localStorage.setItem('totalClicks', totalClicks);
+    renderImages(chooseImages(3));
+}
