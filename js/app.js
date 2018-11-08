@@ -81,22 +81,69 @@ var clearImages = function(){
 }
 
 var picClickHandler = function(eventObject){
-    clearImages();
     if(totalClicks < 25){
+        clearImages();
         var imgIndex = parseInt(eventObject.target.id);
         console.log(imgIndex);
         imgList[imgIndex].clicks++;
+        totalClicks++;
+        renderImages();
     } else{
         renderTotals();
     }
-    totalClicks++;
-    renderImages();
     console.log(imgList[parseInt(eventObject.target.id)]);
 }
 
 var renderTotals = function(){
-    var listContainer = document.getElementById('totals');
-    if(!listContainer.firstChild){
+    var canvas = document.getElementById("totals");
+    if(canvas.getContext){
+        var ctx = canvas.getContext('2d');
+        console.log(ctx);
+        var clickArray = [];
+        var shownArray = [];
+        var nameArray = [];
+        for(var i = 0; i < imgList.length; i++){
+            clickArray.push(imgList[i].clicks);
+            shownArray.push(imgList[i].shown);
+            nameArray.push(imgList[i].id);
+        }
+        var chartData = {
+            labels: nameArray,
+            datasets: [{
+                label: 'clicks',
+                data: clickArray,
+                backgroundColor: '#AA0000',
+                borderColor: '#AA0000',
+                borderWidth: 1
+            },
+            {
+                label: 'shown',
+                data: shownArray,
+                backgroundColor: '#0000AA',
+                borderColor: '#0000AA',
+                borderWidth: 1
+            }]
+        }
+        var chartOptions = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            responsive: true,
+        }
+
+        var barChart = {
+            type: 'horizontalBar',
+            data: chartData,
+            options: chartOptions,
+        }
+
+        var myChart = new Chart(ctx, barChart);
+    } else {
+        var listContainer = canvas.appendChild(document.createElement('ul'));
         for(var i = 0; i < imgList.length; i++){
             var liEl = document.createElement('li');
             liEl.textContent = imgList[i].id + ' was shown ' +imgList[i].shown + ' times and was clicked ' + imgList[i].clicks + ' times.'
