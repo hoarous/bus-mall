@@ -75,7 +75,7 @@ var picClickHandler = function(eventObject){
 
 var renderTotals = function(){
     var canvas = document.getElementById("totals");
-    if(canvas.getContext){
+    // if(canvas.getContext){
         var ctx = canvas.getContext('2d');
         console.log(ctx);
         var clickArray = [];
@@ -91,15 +91,15 @@ var renderTotals = function(){
             datasets: [{
                 label: 'clicks',
                 data: clickArray,
-                backgroundColor: '#AA0000',
-                borderColor: '#AA0000',
+                backgroundColor: '#DD0044',
+                borderColor: '#DD0044',
                 borderWidth: 1
             },
             {
                 label: 'shown',
                 data: shownArray,
-                backgroundColor: '#0000AA',
-                borderColor: '#0000AA',
+                backgroundColor: '#0088AA',
+                borderColor: '#0088AA',
                 borderWidth: 1
             }]
         }
@@ -121,14 +121,14 @@ var renderTotals = function(){
         }
 
         var myChart = new Chart(ctx, barChart);
-    } else {
-        var listContainer = canvas.appendChild(document.createElement('ul'));
-        for(var i = 0; i < imgList.length; i++){
-            var liEl = document.createElement('li');
-            liEl.textContent = imgList[i].id + ' was shown ' +imgList[i].shown + ' times and was clicked ' + imgList[i].clicks + ' times.'
-            listContainer.appendChild(liEl);
-        }
-    }
+    // } else {
+    //     var listContainer = canvas.appendChild(document.createElement('ul'));
+    //     for(var i = 0; i < imgList.length; i++){
+    //         var liEl = document.createElement('li');
+    //         liEl.textContent = imgList[i].id + ' was shown ' +imgList[i].shown + ' times and was clicked ' + imgList[i].clicks + ' times.'
+    //         listContainer.appendChild(liEl);
+    //     }
+    // }
 }
 
 visualBuffer = JSON.parse(localStorage.getItem('visualBuffer'));
